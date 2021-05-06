@@ -354,6 +354,15 @@ mod input_handling {
                     kind: MouseEventKind::ScrollDown,
                     ..
                 }) => Some(InputEvent::UpdateUpperMark(upper_mark.saturating_add(5))),
+                // Go to bottom.
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('G'),
+                    modifiers: KeyModifiers::SHIFT,
+                }) |
+                Event::Key(KeyEvent {
+                    code: KeyCode::End,
+                    modifiers: KeyModifiers::NONE,
+                }) => Some(InputEvent::UpdateUpperMark(usize::MAX)),
                 // Go to top.
                 Event::Key(KeyEvent {
                     code: KeyCode::Char('g'),
@@ -363,15 +372,6 @@ mod input_handling {
                     code: KeyCode::Home,
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::UpdateUpperMark(0)),
-                // Go to bottom.
-                Event::Key(KeyEvent {
-                    code: KeyCode::Char('g'),
-                    modifiers: KeyModifiers::SHIFT,
-                }) |
-                Event::Key(KeyEvent {
-                    code: KeyCode::End,
-                    modifiers: KeyModifiers::NONE,
-                }) => Some(InputEvent::UpdateUpperMark(usize::MAX)),
                 // Half-page Up/Down
                 Event::Key(KeyEvent {
                     code: KeyCode::Char('u'),
