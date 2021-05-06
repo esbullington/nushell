@@ -401,6 +401,10 @@ mod input_handling {
                     modifiers: KeyModifiers::CONTROL,
                 }) |
                 Event::Key(KeyEvent {
+                    code: KeyCode::Char(' '),
+                    modifiers: KeyModifiers::NONE,
+                }) |
+                Event::Key(KeyEvent {
                     code: KeyCode::PageDown,
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::UpdateUpperMark(
