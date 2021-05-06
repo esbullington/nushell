@@ -327,11 +327,19 @@ mod input_handling {
             match ev {
                 // Scroll up by one.
                 Event::Key(KeyEvent {
+                    code: KeyCode::Char('k'),
+                    modifiers: KeyModifiers::NONE,
+                }) |
+                Event::Key(KeyEvent {
                     code: KeyCode::Up,
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::UpdateUpperMark(upper_mark.saturating_sub(1))),
 
                 // Scroll down by one.
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('j'),
+                    modifiers: KeyModifiers::NONE,
+                }) |
                 Event::Key(KeyEvent {
                     code: KeyCode::Down,
                     modifiers: KeyModifiers::NONE,
@@ -348,22 +356,50 @@ mod input_handling {
                 }) => Some(InputEvent::UpdateUpperMark(upper_mark.saturating_add(5))),
                 // Go to top.
                 Event::Key(KeyEvent {
+                    code: KeyCode::Char('g'),
+                    modifiers: KeyModifiers::NONE,
+                }) |
+                Event::Key(KeyEvent {
                     code: KeyCode::Home,
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::UpdateUpperMark(0)),
                 // Go to bottom.
                 Event::Key(KeyEvent {
+                    code: KeyCode::Char('g'),
+                    modifiers: KeyModifiers::SHIFT,
+                }) |
+                Event::Key(KeyEvent {
                     code: KeyCode::End,
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::UpdateUpperMark(usize::MAX)),
-
+                // Half-page Up/Down
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('u'),
+                    modifiers: KeyModifiers::CONTROL,
+                }) => Some(InputEvent::UpdateUpperMark(
+                    upper_mark.saturating_sub(rows / 2),
+                )),
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('d'),
+                    modifiers: KeyModifiers::CONTROL,
+                }) => Some(InputEvent::UpdateUpperMark(
+                    upper_mark.saturating_add(rows / 2),
+                )),
                 // Page Up/Down
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('b'),
+                    modifiers: KeyModifiers::CONTROL,
+                }) |
                 Event::Key(KeyEvent {
                     code: KeyCode::PageUp,
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::UpdateUpperMark(
                     upper_mark.saturating_sub(rows - 1),
                 )),
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('f'),
+                    modifiers: KeyModifiers::CONTROL,
+                }) |
                 Event::Key(KeyEvent {
                     code: KeyCode::PageDown,
                     modifiers: KeyModifiers::NONE,
@@ -400,6 +436,10 @@ mod input_handling {
                     modifiers: KeyModifiers::NONE,
                 }) => Some(InputEvent::Search(SearchMode::Unknown)),
                 Event::Key(KeyEvent {
+                    code: KeyCode::Char('n'),
+                    modifiers: KeyModifiers::CONTROL,
+                }) |
+                Event::Key(KeyEvent {
                     code: KeyCode::Down,
                     modifiers: KeyModifiers::CONTROL,
                 }) => {
@@ -409,6 +449,10 @@ mod input_handling {
                         None
                     }
                 }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('p'),
+                    modifiers: KeyModifiers::CONTROL,
+                }) |
                 Event::Key(KeyEvent {
                     code: KeyCode::Up,
                     modifiers: KeyModifiers::CONTROL,
